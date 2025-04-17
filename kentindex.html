@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christian Kent Caspillio - Chaotic Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c4S8BAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfTBAwBICJvWFR4AAAASElEQVRIx+3SMQ0AIAwAsYlDiH9UMEBI2NsDtdqfRFZ6P6ksQ5YsWbJkyZIlS5asYVlTXVjrf9lTfdn/7JH9s0f2zx7ZP3tk/4hkkqmG4fgYAAAAAElFTkSuQmCC');
+            opacity: 0.05;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glitch-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+        }
+
+        .glitch-text {
+            font-size: 5vw;
+            font-weight: bold;
+            position: relative;
+            display: inline-block;
+            animation: textShadow 2s infinite alternate;
+        }
+
+        @keyframes textShadow {
+            0% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75); }
+            14% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75); }
+            15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
+            49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
+            50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
+            99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
+            100% { text-shadow: -0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,0,0.75), -0.025em -0.05em 0 rgba(0,0,255,0.75); }
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            animation: glitch-1 2s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: 1px 0 blue;
+            animation: glitch-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-1 {
+            0% { clip-path: inset(80% 0 0 0); }
+            20% { clip-path: inset(20% 0 80% 0); }
+            40% { clip-path: inset(40% 0 40% 0); }
+            60% { clip-path: inset(60% 0 20% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 50% 0); }
+        }
+
+        @keyframes glitch-2 {
+            0% { clip-path: inset(30% 0 60% 0); }
+            20% { clip-path: inset(10% 0 90% 0); }
+            40% { clip-path: inset(70% 0 20% 0); }
+            60% { clip-path: inset(20% 0 60% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(80% 0 10% 0); }
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            top: 50%;
+            animation: scanline 6s linear infinite;
+            z-index: 9;
+        }
+
+        @keyframes scanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0f0;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .static {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .menu a {
+            color: #0f0;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 18px;
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .menu a:hover {
+            color: #ff0;
+            animation: shake 0.5s linear infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(1px, 1px) rotate(1deg); }
+            50% { transform: translate(-1px, -1px) rotate(-1deg); }
+            75% { transform: translate(2px, -1px) rotate(2deg); }
+            100% { transform: translate(-1px, 2px) rotate(-2deg); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(0, 255, 0, 0.5);
+            animation: float 20s linear infinite;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(random); opacity: 1; }
+            100% { transform: translateY(-100px) translateX(random); opacity: 0; }
+        }
+
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
+            z-index: 8;
+            animation: glitchOverlay 10s infinite;
+        }
+
+        @keyframes glitchOverlay {
+            0% { background: transparent; }
+            5% { background: rgba(255, 0, 0, 0.1); transform: translate(10px, 0); }
+            5.1% { background: transparent; transform: translate(0, 0); }
+            10% { background: transparent; }
+            10.1% { background: rgba(0, 255, 0, 0.1); transform: translate(-10px, 0); }
+            10.2% { background: transparent; transform: translate(0, 0); }
+            20% { background: transparent; }
+            20.1% { background: rgba(0, 0, 255, 0.1); transform: translate(0, 10px); }
+            20.2% { background: transparent; transform: translate(0, 0); }
+            30% { background: transparent; }
+            30.1% { background: rgba(255, 0, 255, 0.1); transform: translate(5px, 5px); }
+            30.2% { background: transparent; transform: translate(0, 0); }
+            40% { background: transparent; }
+            40.1% { background: rgba(255, 255, 0, 0.1); transform: translate(-5px, 5px); }
+            40.2% { background: transparent; transform: translate(0, 0); }
+            50% { background: transparent; }
+            50.1% { background: rgba(0, 255, 255, 0.1); transform: translate(5px, -5px); }
+            50.2% { background: transparent; transform: translate(0, 0); }
+            60% { background: transparent; }
+            60.1% { background: rgba(255, 0, 0, 0.1); transform: translate(-5px, -5px); }
+            60.2% { background: transparent; transform: translate(0, 0); }
+            100% { background: transparent; }
+        }
+
+        .subtitle {
+            font-size: 1.5vw;
+            margin-top: 20px;
+            opacity: 0.7;
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.7; }
+            5% { opacity: 0.6; }
+            10% { opacity: 0.7; }
+            15% { opacity: 0.8; }
+            20% { opacity: 0.5; }
+            25% { opacity: 0.7; }
+            30% { opacity: 0.6; }
+            35% { opacity: 0.7; }
+            40% { opacity: 0.8; }
+            45% { opacity: 0.7; }
+            50% { opacity: 0.6; }
+            55% { opacity: 0.7; }
+            60% { opacity: 0.5; }
+            65% { opacity: 0.7; }
+            70% { opacity: 0.6; }
+            75% { opacity: 0.7; }
+            80% { opacity: 0.8; }
+            85% { opacity: 0.7; }
+            90% { opacity: 0.6; }
+            95% { opacity: 0.7; }
+            100% { opacity: 0.7; }
+        }
+
+        .crt-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 7;
+            pointer-events: none;
+        }
+
+        .pixel-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: 6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="static"></div>
+    <div class="scanline"></div>
+    <div class="crt-effect"></div>
+    <div class="pixel-noise"></div>
+    <div class="glitch-overlay"></div>
+    <div class="custom-cursor"></div>
+
+    <div class="menu">
+        <a href="#projects">PROJECTS</a>
+        <a href="#about">ABOUT</a>
+        <a href="#contact">CONTACT</a>
+    </div>
+
+    <div class="floating-elements" id="floating-elements"></div>
+
+    <div class="glitch-container">
+        <div class="glitch-text" data-text="CHRISTIAN KENT - IM GAY">CHRISTIAN KENT - IM GAY!!</div>
+        <div class="subtitle">GAY ENTHUSIAST // DIGITAL GAY PORN</div>
+    </div>
+
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Add random glitches to cursor
+            if (Math.random() > 0.97) {
+                cursor.style.transform = `translate(-50%, -50%) scale(${Math.random() * 3})`;
+                setTimeout(() => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                }, 100);
+            }
+        });
+
+        // Floating elements
+        const floatingElementsContainer = document.getElementById('floating-elements');
+        const symbols = '01CHRISTIAN KENT - IM GAY<>/\\!@#$%^&*()_+-={}[]|;:,.?';
+        
+        for (let i = 0; i < 100; i++) {
+            const floatingElement = document.createElement('div');
+            floatingElement.classList.add('floating-element');
+            floatingElement.style.left = `${Math.random() * 100}%`;
+            floatingElement.style.top = `${Math.random() * 100}%`;
+            floatingElement.style.animationDuration = `${10 + Math.random() * 20}s`;
+            floatingElement.style.animationDelay = `${Math.random() * 10}s`;
+            floatingElement.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            floatingElementsContainer.appendChild(floatingElement);
+        }
+
+        // Screen glitches
+        function createGlitch() {
+            const body = document.body;
+            const glitchDuration = Math.random() * 200;
+            const glitchType = Math.floor(Math.random() * 5);
+            
+            switch (glitchType) {
+                case 0:
+                    body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+                    setTimeout(() => {
+                        body.style.filter = '';
+                    }, glitchDuration);
+                    break;
+                case 1:
+                    body.style.transform = `skew(${Math.random() * 10 - 5}deg, ${Math.random() * 10 - 5}deg)`;
+                    setTimeout(() => {
+                        body.style.transform = '';
+                    }, glitchDuration);
+                    break;
+                case 2:
+                    body.style.opacity = 0.8;
+                    setTimeout(() => {
+                        body.style.opacity = 1;
+                    }, glitchDuration);
+                    break;
+                case 3:
+                    body.style.filter = 'invert(100%)';
+                    setTimeout(() => {
+                        body.style.filter = '';
+                    }, glitchDuration);
+                    break;
+                case 4:
+                    body.style.filter = 'blur(5px)';
+                    setTimeout(() => {
+                        body.style.filter = '';
+                    }, glitchDuration);
+                    break;
+            }
+            
+            setTimeout(createGlitch, 1000 + Math.random() * 5000);
+        }
+        
+        createGlitch();
+
+        // Pixel noise animation
+        const pixelNoise = document.querySelector('.pixel-noise');
+        function animatePixelNoise() {
+            let noiseCanvas = document.createElement('canvas');
+            let noiseCtx = noiseCanvas.getContext('2d');
+            
+            noiseCanvas.width = 100;
+            noiseCanvas.height = 100;
+            
+            function drawNoise() {
+                const imgData = noiseCtx.createImageData(100, 100);
+                const data = imgData.data;
+                
+                for (let i = 0; i < data.length; i += 4) {
+                    const value = Math.random() * 255;
+                    data[i] = value;
+                    data[i + 1] = value;
+                    data[i + 2] = value;
+                    data[i + 3] = Math.random() * 50;
+                }
+                
+                noiseCtx.putImageData(imgData, 0, 0);
+                pixelNoise.style.backgroundImage = `url(${noiseCanvas.toDataURL()})`;
+                
+                requestAnimationFrame(drawNoise);
+            }
+            
+            drawNoise();
+        }
+        
+        animatePixelNoise();
+
+        // Random text glitches
+        const glitchText = document.querySelector('.glitch-text');
+        const originalText = glitchText.textContent;
+        
+        function glitchTextEffect() {
+            if (Math.random() > 0.9) {
+                let glitchedText = '';
+                for (let i = 0; i < originalText.length; i++) {
+                    if (Math.random() > 0.9) {
+                        glitchedText += symbols[Math.floor(Math.random() * symbols.length)];
+                    } else {
+                        glitchedText += originalText[i];
+                    }
+                }
+                glitchText.textContent = glitchedText;
+                glitchText.setAttribute('data-text', glitchedText);
+                
+                setTimeout(() => {
+                    glitchText.textContent = originalText;
+                    glitchText.setAttribute('data-text', originalText);
+                }, 200);
+            }
+            
+            setTimeout(glitchTextEffect, 2000 + Math.random() * 3000);
+        }
+        
+        glitchTextEffect();
+
+        // Add page shake effect randomly
+        function pageShake() {
+            if (Math.random() > 0.95) {
+                document.body.style.animation = 'shake 0.5s linear';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 500);
+            }
+            setTimeout(pageShake, 5000 + Math.random() * 10000);
+        }
+        
+        pageShake();
+    </script>
+</body>
+</html>

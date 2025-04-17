@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christian Kent Caspillio - Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Courier New', monospace;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff00ff" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>'), auto;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .main-text {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            animation: pulse 1s infinite alternate, rotate 5s infinite linear;
+            z-index: 100;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
+        }
+
+        .rainbow-text {
+            background-image: linear-gradient(90deg, 
+                #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 2s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glitch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-10px, 10px); }
+            40% { transform: translate(10px, -10px); }
+            60% { transform: translate(-5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+            animation: float 8s infinite ease-in-out;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); }
+            100% { transform: translateY(-100px) scale(1); }
+        }
+
+        .flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            animation: flash 4s infinite;
+        }
+
+        @keyframes flash {
+            0%, 91%, 93%, 95%, 97%, 99% { opacity: 0; }
+            92%, 94%, 96%, 98%, 100% { opacity: 0.2; }
+        }
+
+        .text-explosion {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            animation: explode 2s forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        .grid {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: gridMove 10s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1IiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48L3N2Zz4=');
+            opacity: 0.1;
+            z-index: 3;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 4;
+            animation: scanline 6s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            animation: navGlitch 3s infinite;
+        }
+
+        @keyframes navGlitch {
+            0%, 100% { transform: translate(0); }
+            10% { transform: translate(-2px, 2px); }
+            20% { transform: translate(2px, -2px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            50% { transform: translate(0); }
+        }
+
+        .cursor-trail {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: 4;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            font-size: 0.8rem;
+            z-index: 100;
+            animation: footerGlitch 2s infinite;
+        }
+
+        @keyframes footerGlitch {
+            0%, 100% { opacity: 1; transform: translate(0); }
+            50% { opacity: 0.7; transform: translate(5px, -2px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-text"><span class="rainbow-text">Im Christian Kent, and I am GAY!</span></h1>
+    </div>
+    
+    <nav>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    
+    <div class="grid"></div>
+    <div class="noise"></div>
+    <div class="glitch"></div>
+    <div class="particles"></div>
+    <div class="flash"></div>
+    <div class="scanline"></div>
+    
+    <footer>© 2025 Christian Kent Caspillio - All Rights Reserved</footer>
+
+    <script>
+        // Create random bubbles
+        function createBubbles() {
+            const particles = document.querySelector('.particles');
+            const maxBubbles = 50;
+            
+            for (let i = 0; i < maxBubbles; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                const size = Math.random() * 50 + 10;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 8 + 4;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}%`;
+                bubble.style.bottom = `-${size}px`;
+                bubble.style.animationDelay = `${delay}s`;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                
+                particles.appendChild(bubble);
+            }
+        }
+        
+        // Create text explosions
+        function createTextExplosion() {
+            const container = document.querySelector('.container');
+            const explosion = document.createElement('div');
+            explosion.classList.add('text-explosion');
+            
+            const phrases = [
+                "FABULOUS!", "AMAZING!", "PROUD!", "LOVE!", 
+                "RAINBOW!", "GLITTER!", "SPARKLE!", "SHINE!",
+                "FIERCE!", "SLAY!", "WERK!", "QUEEN!",
+                "YES!", "GAYYY!", "PRIDE!", "AUTHENTIC!"
+            ];
+            
+            explosion.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            explosion.style.left = `${Math.random() * 80 + 10}%`;
+            explosion.style.top = `${Math.random() * 80 + 10}%`;
+            explosion.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            
+            container.appendChild(explosion);
+            
+            setTimeout(() => {
+                explosion.remove();
+            }, 2000);
+        }
+        
+        // Create cursor trail effect
+        function createCursorTrail(e) {
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            
+            trail.style.left = `${e.clientX}px`;
+            trail.style.top = `${e.clientY}px`;
+            trail.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+            
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                trail.style.transition = 'transform 0.5s, opacity 0.5s';
+                trail.style.transform = `scale(3)`;
+                trail.style.opacity = '0';
+                
+                setTimeout(() => {
+                    trail.remove();
+                }, 500);
+            }, 10);
+        }
+        
+        // Glitch effect for text
+        function glitchText() {
+            const mainText = document.querySelector('.main-text');
+            const originalText = mainText.innerHTML;
+            
+            const glitchChars = '!@#$%^&*()_+{}|:"<>?~`1234567890-=[];\',./';
+            
+            // Create glitched text
+            let glitchedText = '';
+            for (let i = 0; i < originalText.length; i++) {
+                if (Math.random() < 0.1) {
+                    glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    glitchedText += originalText[i];
+                }
+            }
+            
+            // Apply glitched text briefly
+            mainText.innerHTML = glitchedText;
+            
+            // Reset after a short delay
+            setTimeout(() => {
+                mainText.innerHTML = originalText;
+            }, 100);
+        }
+        
+        // Screen shake effect
+        function screenShake() {
+            const container = document.querySelector('.container');
+            const intensity = 10;
+            
+            const xPos = Math.random() * intensity - intensity/2;
+            const yPos = Math.random() * intensity - intensity/2;
+            
+            container.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            
+            setTimeout(() => {
+                container.style.transform = 'translate(0, 0)';
+            }, 100);
+        }
+        
+        // Initialize all effects
+        document.addEventListener('DOMContentLoaded', () => {
+            createBubbles();
+            
+            // Text explosions
+            setInterval(createTextExplosion, 800);
+            
+            // Mouse trail
+            document.addEventListener('mousemove', createCursorTrail);
+            
+            // Text glitch effect
+            setInterval(glitchText, 2000);
+            
+            // Screen shake
+            setInterval(screenShake, 3000);
+            
+            // Make elements draggable
+            const draggables = document.querySelectorAll('nav a, .main-text');
+            draggables.forEach(elem => {
+                elem.addEventListener('mousedown', e => {
+                    const shiftX = e.clientX - elem.getBoundingClientRect().left;
+                    const shiftY = e.clientY - elem.getBoundingClientRect().top;
+                    
+                    moveAt(e.pageX, e.pageY);
+                    
+                    function moveAt(pageX, pageY) {
+                        elem.style.position = 'absolute';
+                        elem.style.left = pageX - shiftX + 'px';
+                        elem.style.top = pageY - shiftY + 'px';
+                    }
+                    
+                    function onMouseMove(e) {
+                        moveAt(e.pageX, e.pageY);
+                    }
+                    
+                    document.addEventListener('mousemove', onMouseMove);
+                    
+                    elem.onmouseup = function() {
+                        document.removeEventListener('mousemove', onMouseMove);
+                        elem.onmouseup = null;
+                    };
+                });
+                
+                elem.ondragstart = function() {
+                    return false;
+                };
+            });
+        });
+    </script>
+</body>
+</html>
